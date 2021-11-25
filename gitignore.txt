@@ -45,6 +45,9 @@ typings/
 venv/
 env/
 
+Pipfile
+Pipfile.lock
+
 # Optional npm cache directory
 .npm
 
@@ -167,3 +170,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# vscode
+.vscode/
