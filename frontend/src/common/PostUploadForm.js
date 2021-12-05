@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 import { UploadCloud } from "lucide-react"
 import ModalLayout from "./ModalLayout"
 import { useDispatch, useSelector } from "react-redux"
@@ -49,15 +49,12 @@ const PostUploadForm = props => {
 
   const onCancel = () => {
     props.onCancel()
-  }
-
-  useEffect(() => {
     dispatch(
       uploadPostActions.setStatus({
         status: status !== "uploading" ? "idle" : status
       })
     )
-  }, [dispatch, status])
+  }
 
   let body = (
     <>

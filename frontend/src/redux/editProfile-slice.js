@@ -37,7 +37,6 @@ export const editProfile = data => {
     let form_data = new FormData()
     if (data.avatar) form_data.append("avatar", data.avatar, data.avatar.name)
     form_data.append("name", data.name)
-    // console.log(user)
     let url = `http://127.0.0.1:8000/api/v1/profiles/${user.profile.id}/`
 
     if (config) {

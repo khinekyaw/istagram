@@ -1,8 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { Heart, MoreHorizontal, MessageCircle } from "lucide-react"
-import { useSelector } from "react-redux"
-import axios from "axios"
+import { useDispatch, useSelector } from "react-redux"
+
+import { likePost } from "../redux/posts-slice"
 
 const Post = props => {
   const {
@@ -17,9 +18,11 @@ const Post = props => {
   } = props
   const likes_count = users_like.length
   const user = useSelector(state => state.user)
-  const active_like = users_like.includes(user.profile && user.profile.id)
+  const liked = users_like.includes(user.profile && user.profile.id)
     ? " active"
     : ""
+
+  const dispatch = useDispatch()
 
   const lastComment = last_comment && (
     <p>
@@ -30,23 +33,13 @@ const Post = props => {
     </p>
   )
 
-  const actionLike = async (config, action) => {
-    await axios.get(
-      `http://127.0.0.1:8000/api/v1/${id}/likes?action=${action}`,
-      config
-    )
-  }
-
   const onLike = () => {
-    const config = {
-      headers: { Authorization: `Token ${user.key}` }
-    }
-    actionLike(config, active_like ? "remove" : "like")
+    dispatch(likePost(id, liked ? "remove" : "like"))
   }
 
   const likeButton = (
     <button className='icon-button' onClick={onLike}>
-      <Heart className={`like${active_like}`} color='black' />
+      <Heart className={`like${liked}`} color='black' />
     </button>
   )
 

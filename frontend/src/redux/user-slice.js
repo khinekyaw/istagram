@@ -59,7 +59,6 @@ export const login = ({ data, onSucceed }) => {
         key: response.data.key,
         profile: profile.data
       }
-      console.log("login: ", user)
       dispatch(userSlice.actions.setUser(user))
       localStorage.setItem("user", JSON.stringify(user))
       onSucceed()
