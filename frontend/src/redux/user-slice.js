@@ -14,10 +14,12 @@ const userSlice = createSlice({
     setUser(state, action) {
       state.username = action.payload.username
       state.key = action.payload.key
+      state.profile = action.payload.profile
     },
     clearUser(state) {
       state.username = null
       state.key = null
+      state.profile = null
     }
   }
 })
@@ -57,6 +59,7 @@ export const login = ({ data, onSucceed }) => {
         key: response.data.key,
         profile: profile.data
       }
+      console.log("login: ", user)
       dispatch(userSlice.actions.setUser(user))
       localStorage.setItem("user", JSON.stringify(user))
       onSucceed()

@@ -17,7 +17,9 @@ const Post = props => {
   } = props
   const likes_count = users_like.length
   const user = useSelector(state => state.user)
-  const active_like = users_like.includes(user.profile.id) ? " active" : ""
+  const active_like = users_like.includes(user.profile && user.profile.id)
+    ? " active"
+    : ""
 
   const lastComment = last_comment && (
     <p>

@@ -26,10 +26,10 @@ export const editProfile = data => {
         })
       )
     }
-
+    const user = getState().user
     const config = {
       headers: {
-        Authorization: `Token ${getState().user.key}`,
+        Authorization: `Token ${user.key}`,
         "content-type": "multipart/form-data"
       },
       onUploadProgress: onProgress
@@ -37,7 +37,8 @@ export const editProfile = data => {
     let form_data = new FormData()
     if (data.avatar) form_data.append("avatar", data.avatar, data.avatar.name)
     form_data.append("name", data.name)
-    let url = "http://127.0.0.1:8000/api/v1/profiles/1/"
+    // console.log(user)
+    let url = `http://127.0.0.1:8000/api/v1/profiles/${user.profile.id}/`
 
     if (config) {
       const sendRequest = async () => {
