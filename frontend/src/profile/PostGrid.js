@@ -1,10 +1,15 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Image, Bookmark } from "lucide-react"
 
 import PostPreview from "./PostPreview"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchProfilePhotos } from "../redux/profilePhotos-slice"
 
 const PostGrid = props => {
-  const { data, tab } = props
+  const { tab, routeId } = props
+  const dispatch = useDispatch()
+  const profilePosts = useSelector(state => state.profile_photos)
+  let data = profilePosts.user_photos
 
   let blankContent = (
     <>
@@ -14,6 +19,7 @@ const PostGrid = props => {
   )
 
   if (tab === "saved") {
+    data = profilePosts.saved_photos
     blankContent = (
       <>
         <Bookmark className='icon' />
@@ -21,6 +27,10 @@ const PostGrid = props => {
       </>
     )
   }
+
+  useEffect(() => {
+    dispatch(fetchProfilePhotos(routeId, tab))
+  }, [dispatch, routeId, tab])
 
   return (
     <div className='photo-grid'>

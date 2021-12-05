@@ -2,6 +2,8 @@ import React from "react"
 import { X } from "lucide-react"
 
 const ModalLayout = props => {
+  const { status } = props
+
   return (
     <div className='modal-layout'>
       <div className='flex-column-sb'>
@@ -15,8 +17,11 @@ const ModalLayout = props => {
         <button onClick={props.onCancel} className='btn btn--outline'>
           Cancel
         </button>
-        <button disabled className='btn'>
-          Submit
+        <button
+          disabled={props.disabled}
+          onClick={status !== "idle" ? props.onCancel : props.onSubmit}
+          className='btn'>
+          {status !== "idle" ? "OK" : "Submit"}
         </button>
       </div>
     </div>

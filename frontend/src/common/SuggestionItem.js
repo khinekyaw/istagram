@@ -1,12 +1,11 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import Avatar from "./Avatar"
 
-const SuggestionItem = ({ avatar, username, name, profile }) => {
+const SuggestionItem = ({ avatar, username, name, id }) => {
   return (
-    <Link to={`/user/${profile}`} className='suggestions-list__user'>
-      <div className='avatar'>
-        <img src={avatar} alt={username}></img>
-      </div>
+    <Link to={`/user/${id}`} className='suggestions-list__user'>
+      <Avatar src={avatar} alt={username} />
       <div className='left'>
         <p>{username}</p>
         <p className='name'>{name}</p>

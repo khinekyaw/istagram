@@ -1,30 +1,78 @@
 import { createSlice } from "@reduxjs/toolkit"
 const axios = require("axios").default
 
-const userSlice = createSlice({
-  name: "user",
-  initialState: {
-    username: null,
-    key: null
-  },
-  reducers: {}
-})
-
-export default userSlice
-
-// http://127.0.0.1:8000/api/v1/rest-auth/login/
-const key = "e85afcb93df288d878a7d8910d147f0a28208a01"
-const config = {
-  headers: { Authorization: `Token ${key}` }
+const INITIAL_USER_STATE = JSON.parse(localStorage.getItem("user")) || {
+  username: null,
+  key: null,
+  profile: null
 }
 
-export const sendLoginData = credentials => {
+const userSlice = createSlice({
+  name: "user",
+  initialState: INITIAL_USER_STATE,
+  reducers: {
+    setUser(state, action) {
+      state.username = action.payload.username
+      state.key = action.payload.key
+    },
+    clearUser(state) {
+      state.username = null
+      state.key = null
+    }
+  }
+})
+
+export const login = ({ data, onSucceed }) => {
+  return async dispatch => {
+    const sendRequest = () => {
+      const login_link = "http://127.0.0.1:8000/api/v1/rest-auth/login/"
+      const response = axios.post(login_link, data)
+
+      if (!response.statusText === "OK") {
+        throw new Error("Something want wrong.")
+      }
+      return response
+    }
+
+    const sendRequestProfile = token => {
+      const login_link = "http://127.0.0.1:8000/api/v1/profiles/user"
+      let config = {
+        headers: { Authorization: `Token ${token}` }
+      }
+      const response = axios.get(login_link, config)
+
+      if (!response.statusText === "OK") {
+        throw new Error("Something want wrong.")
+      }
+      return response
+    }
+
+    try {
+      const response = await sendRequest()
+      const login_data = JSON.parse(response.config.data)
+      const profile = await sendRequestProfile(response.data.key)
+
+      const user = {
+        username: login_data.username,
+        key: response.data.key,
+        profile: profile.data
+      }
+      dispatch(userSlice.actions.setUser(user))
+      localStorage.setItem("user", JSON.stringify(user))
+      onSucceed()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const register = ({ data, onSucceed }) => {
   return async dispatch => {
     axios
-      .post("http://127.0.0.1:8000/api/v1/rest-auth/login/", credentials)
+      .post("http://127.0.0.1:8000/api/v1/rest-auth/register/", data)
       .then(function (response) {
         // handle success
-        console.log(response)
+        onSucceed()
       })
       .catch(function (error) {
         // handle error
@@ -32,3 +80,7 @@ export const sendLoginData = credentials => {
       })
   }
 }
+
+export const userActions = userSlice.actions
+
+export default userSlice
