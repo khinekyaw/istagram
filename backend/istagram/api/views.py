@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from rest_framework import generics, status, permissions
+from rest_framework import generics, serializers, status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -58,26 +58,29 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthorOrReadOnly,)
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-
-
-class LikePost(generics.RetrieveUpdateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = LikePostSerializer
-
-    def perform_update(self, serializer):
+            
+class LikePost(APIView):
+    def get(self, request, pk, format=None):
         profile = Profile.objects.get(user=self.request.user)
         post = Post.objects.get(id=self.kwargs['pk'])
-        if post.users_like.filter(id=profile.id).exists():
-            post.users_like.remove(profile)
-        else:
-            post.users_like.add(profile)
+        action = self.request.query_params.get("action")
+        
+        #if post.users_like.filter(id=profile.id).exists():
+        try:
+            if action == "remove":
+                post.users_like.remove(profile)
+            else:
+                post.users_like.add(profile)
+            return Response(status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class SavedList(APIView):
     def get(self, request, pk, format=None):
         profile = Profile.objects.get(user=pk)
         posts = profile.images_saved.all()
-        serializer = PostSerializer(posts, many=True)
+        serializer = PostSerializer(posts, many=True, context={'request': request})
         return Response(serializer.data)
 
 
@@ -123,15 +126,17 @@ class ProfileList(APIView):
     def get(self, request, format=None):
         type_ = self.request.query_params.get('type')
 
-        if type_ and type_ == 'suggession':
+        if type_ and type_ == 'suggestion':
             this_profile = Profile.objects.get(user=request.user)
             followed = this_profile.following.all()
             profiles = Profile.objects.exclude(
-                id__in=followed).exclude(id=this_profile.id)
+                id__in=followed)
+			#.exclude(id=this_profile.id)
         else:
             profiles = Profile.objects.all()
 
-        serializer = ProfileSerializer(profiles, many=True)
+        # add context to get full image path
+        serializer = ProfileSerializer(profiles, many=True, context={'request': request})
         return Response(serializer.data)
 
 
@@ -143,6 +148,19 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileDetailSerializer
 
+
+class UserProfileDetail(APIView): 
+    def get(self, request, format=None):
+        profile = Profile.objects.get(user=request.user)
+        serializer = ProfileDetailSerializer(profile, many=False, context={'request': request})
+        return Response(serializer.data)
+
+    def put(self, request, format=None):
+        serializer = ProfileDetailSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class FollowProfile(APIView):
     def get(self, request, pk, format=None):

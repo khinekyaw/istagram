@@ -66,7 +66,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_avatar(self, obj):
         try:
-            return obj.profile.avatar.url
+            return self.context['request'].build_absolute_uri(obj.profile.avatar.url)
         except:
             return
 
@@ -118,13 +118,3 @@ class ProfileDetailSerializer(serializers.ModelSerializer):
             'followers': {'read_only': True},
             'following': {'read_only': True},
         }
-
-
-# class SavePostSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = Post
-#         fields = ('id', 'caption')
-#         extra_kwargs = {
-#             'users_like': {'read_only': True}
-#         }
