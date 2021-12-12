@@ -7,7 +7,8 @@
   --color-success: #0ad779;
   --color-error: #ff503d;
   --color-surface: #ffffff;
-  --color-background: #fafafa;
+  /* --color-background: #fafafa; */
+  --color-background: #f0f4f5;
   --color-background-variant: #e7ebed;
   --color-background-error: #ffb6ae;
   --color-onsurface: #17252f;
@@ -85,6 +86,11 @@ a {
 h2 {
   font-size: 1.4rem;
   font-weight: 700;
+}
+
+h4 {
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 :root {
@@ -238,6 +244,14 @@ nav {
 .btn--outline:hover {
   color: var(--color-surface);
   background-color: var(--color-primary);
+}
+
+.btn--danger {
+  background-color: var(--color-error);
+}
+
+.btn--danger:hover {
+  background-color: var(--color-error);
 }
 
 /* text input */
@@ -439,6 +453,102 @@ input::placeholder {
 .post__footer__mid .comment-username {
   font-size: var(--font-size-s);
   color: var(--color-primary);
+}
+
+.more-options {
+  position: relative;
+}
+
+.more-options .options {
+  background-color: var(--color-surface);
+  position: absolute;
+  top: 20px;
+  right: var(--size-x5);
+  box-shadow: 0 1px 3px #000000a5;
+  border-radius: var(--size-base);
+  overflow: hidden;
+  padding: var(--size-base) 0;
+  visibility: hidden;
+}
+
+.more-options .options div {
+  cursor: pointer;
+  font-size: 0.92rem;
+  padding: var(--size-base) var(--size-x2);
+  /* transition: var(--duration-m); */
+  text-align: center;
+}
+
+#options-btn:focus {
+  background-color: var(--color-background-variant);
+}
+
+#options-btn:focus + #options-div {
+  visibility: visible;
+}
+
+.more-options .options div:hover {
+  background-color: var(--color-background-variant);
+}
+
+.confirm-delete {
+  padding: var(--size-x3);
+  background-color: var(--color-surface);
+  border-radius: var(--size-base);
+}
+
+.confirm-delete h4 {
+  margin-bottom: var(--size-base);
+}
+
+.confirm-delete div {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--size-x4);
+}
+
+.confirm-delete button {
+  margin-left: var(--size-x2);
+}
+
+.comments {
+  height: 45vh;
+  border-top: 2px solid var(--color-background);
+  padding-top: var(--size-x2);
+  margin-top: 4px;
+  /* background-color: lightblue; */
+}
+
+.comments .item {
+  margin-bottom: var(--size-base);
+}
+
+.comments-form {
+  display: flex;
+  align-items: center;
+}
+
+.comments-form input {
+  flex: 1;
+  margin-right: var(--size-x2);
+}
+
+.comments .empty {
+  color: var(--color-onsurface-variant);
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+}
+
+.comments .empty .icon {
+  color: var(--color-onsurface-variant);
+  width: var(--size-x5);
+  height: var(--size-x5);
+  stroke-width: 1.2px;
+  margin-bottom: var(--size-base);
 }
 
 /***/

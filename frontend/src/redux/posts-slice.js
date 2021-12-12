@@ -25,6 +25,20 @@ const postsSlice = createSlice({
           }
         } else return post
       })
+    },
+    editSave(state, action) {
+      const { payload } = action
+      state.posts = state.posts.map(post => {
+        if (post.id === payload.post_id) {
+          return {
+            ...post,
+            users_save:
+              payload.action === "save"
+                ? [...post.users_save, payload.user_id]
+                : post.users_save.filter(i => i !== payload.user_id)
+          }
+        } else return post
+      })
     }
   }
 })

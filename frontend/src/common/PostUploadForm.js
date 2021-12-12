@@ -15,7 +15,6 @@ const PostUploadForm = props => {
   })
   const [caption, setCaption] = useState("")
   const { status, progress } = useSelector(state => state.upload_post)
-  console.log(progress)
 
   const fieldStyle = {
     backgroundImage: `url('${fileState.imageUrl}')`

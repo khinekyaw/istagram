@@ -1,9 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
-import { Heart, MoreHorizontal, MessageCircle } from "lucide-react"
+import { Heart, MessageCircle } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { likePost } from "../redux/posts-slice"
+import Comments from "./Comments"
+import Modal from "../common/Modal"
+import MoreOptions from "./MoreOptions"
 
 const Post = props => {
   const {
@@ -23,6 +26,11 @@ const Post = props => {
     : ""
 
   const dispatch = useDispatch()
+  const [showComments, setShowComments] = useState(false)
+
+  const onToggleModal = () => {
+    setShowComments(state => !state)
+  }
 
   const lastComment = last_comment && (
     <p>
@@ -43,6 +51,12 @@ const Post = props => {
     </button>
   )
 
+  const commentsModal = (
+    <Modal show={showComments} onBackdropClick={onToggleModal}>
+      <Comments postId={id} show={showComments} ToggleModal={onToggleModal} />
+    </Modal>
+  )
+
   return (
     <div className='post'>
       <div className='post__header'>
@@ -55,9 +69,7 @@ const Post = props => {
           </Link>
         </div>
         <div className='post__header__right'>
-          <button className='icon-button'>
-            <MoreHorizontal color='black' />
-          </button>
+          <MoreOptions {...props} />
         </div>
       </div>
       <div className='post__img'>
@@ -73,11 +85,12 @@ const Post = props => {
           </span>
         </div>
         <div className='post__footer__right'>
-          <button className='icon-button'>
+          <button className='icon-button' onClick={onToggleModal}>
             <MessageCircle color='black' />
           </button>
         </div>
       </div>
+      {commentsModal}
     </div>
   )
 }

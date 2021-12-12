@@ -86,17 +86,18 @@ class SavedList(APIView):
 
 class SavePost(APIView):
     def get(self, request, pk, format=None):
-        profile = Profile.objects.get(user=request.user)
-        posts = profile.images_saved.all()
-        serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, pk, format=None):
+        profile = Profile.objects.get(user=self.request.user)
+        post = Post.objects.get(id=self.kwargs['pk'])
+        action = self.request.query_params.get("action")
+        
         try:
             profile = Profile.objects.get(user=request.user)
             post = Post.objects.get(id=pk)
-            post.users_save.add(profile)
-            return Response(status=status.HTTP_201_CREATED)
+            if action == "remove":
+                post.users_save.remove(profile)
+            else:
+                post.users_save.add(profile)
+            return Response(status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
