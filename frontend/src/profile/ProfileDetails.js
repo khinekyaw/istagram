@@ -18,7 +18,7 @@ const ProfileDetails = props => {
   let [followers, following] = [0, 0]
   if (profile) {
     followers = profile.followers.length
-    following = profile.followers.length
+    following = profile.following.length
   }
 
   const ToggleModal = () => {
@@ -55,7 +55,7 @@ const ProfileDetails = props => {
         <p className='username'>{profile.name}</p>
         <div className='profile__info__stats'>
           <div className='item'>
-            <h2>2.3M</h2>
+            <h2>{profile.total_likes}</h2>
             <p>Likes</p>
           </div>
           <div className='item'>

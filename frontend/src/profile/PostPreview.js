@@ -2,9 +2,8 @@ import React from "react"
 import { Heart, MessageCircle } from "lucide-react"
 
 const PostPreview = props => {
-  const { image, users_like } = props
+  const { image, users_like, total_comments } = props
   const likes_count = users_like.length
-  const comments_count = 3
 
   return (
     <div className='photo-grid__item'>
@@ -16,7 +15,7 @@ const PostPreview = props => {
         </div>
         <div className='overlay__item'>
           <MessageCircle className='icon' />
-          <p>{comments_count}</p>
+          <p>{total_comments}</p>
         </div>
       </div>
     </div>
