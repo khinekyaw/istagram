@@ -1,3 +1,10 @@
+# Istagram
+
+<p align="center">
+<img width="270" height="510" src="https://raw.githubusercontent.com/khinekyaw/istagram/main/frontend/screenshots/is1.PNG">
+<img width="270" height="510" src="https://raw.githubusercontent.com/khinekyaw/istagram/main/frontend/screenshots/is1.PNG">
+</p>
+
 # Demo
 <a href="#">Coming soon</a>
 
