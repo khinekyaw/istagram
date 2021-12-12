@@ -1,7 +1,9 @@
 # Istagram
 
-<h1 align="center">A simple Instagram Clone made using React JS and Django.</h1>
-![App screenshot](https://raw.githubusercontent.com/khinekyaw/istagram/main/frontend/screenshots/is1.PNG)
+<p align="center">A simple Instagram Clone made using React JS and Django.</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/khinekyaw/istagram/main/frontend/screenshots/is1.PNG">
+</p>
 
 # Demo
 <a href="#">Coming soon</a>
