@@ -4,6 +4,9 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/khinekyaw/istagram/main/frontend/screenshots/is1.PNG">
 </p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/khinekyaw/istagram/main/frontend/screenshots/is2.PNG">
+</p>
 
 # Demo
 <a href="#">Coming soon</a>
