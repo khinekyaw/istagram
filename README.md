@@ -27,7 +27,6 @@ A simple Instagram Clone with basic features.The app uses django for the server 
 <li>View Profile</li>
 <li>Edit Profile</li>
 <li>Follow</li>
-<li></li>
 </ul>
 
 ## Todo
