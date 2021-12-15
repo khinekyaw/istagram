@@ -13,18 +13,24 @@
 <a href="#">Coming soon</a>
 
 ## Overview
-This application helps the user to Read,Create,Delete,Update the post,The app uses django for the server side and React for the client side of the application.
+A simple Instagram Clone with basic features.The app uses django for the server side and React for the client side of the application.
 
 <h3>Feautures:</h3>
 <ul>
 <li>Single Page App</li>
 <li>Create Post</li>
 <li>Read Post</li>
-<li>Update Post</li>
 <li>Delete Post</li>
+<li>Like Post</li>
+<li>Save Post</li>
+<li>Comment</li>
+<li>View Profile</li>
+<li>Edit Profile</li>
+<li>Follow</li>
+<li></li>
 </ul>
 
 ## Todo
 
 -  [ ] Optimize Code
--  [ ] Add Follow
+-  [ ] Search Box
