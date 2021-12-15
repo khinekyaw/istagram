@@ -165,16 +165,18 @@ class UserProfileDetail(APIView):
 
 class FollowProfile(APIView):
     def get(self, request, pk, format=None):
-        profile = Profile.objects.get(user=pk)
-        serializer = ProfileDetailSerializer(profile)
-        return Response(serializer.data)
-
-    def post(self, request, pk, format=None):
+        action = self.request.query_params.get("action")
         try:
             this_profile = Profile.objects.get(user=request.user)
             target_profile = Profile.objects.get(user=pk)
-            this_profile.following.add(target_profile)
-            target_profile.followers.add(this_profile)
-            return Response(status=status.HTTP_201_CREATED)
+            
+            if action == "remove":
+                this_profile.following.remove(target_profile)
+                target_profile.followers.remove(this_profile)
+                return Response(status=status.HTTP_200_OK)
+            else:
+                this_profile.following.add(target_profile)
+                target_profile.followers.add(this_profile)
+                return Response(status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)

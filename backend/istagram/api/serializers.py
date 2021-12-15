@@ -71,11 +71,12 @@ class PostSerializer(serializers.ModelSerializer):
             return
 
     avatar = serializers.SerializerMethodField('get_avatar')
+    total_comments = serializers.IntegerField(source='comments.count', read_only=True)
 
     class Meta:
         model = Post
         fields = ('id', 'caption', 'image', 'users_like', 'users_save',
-                  'username', 'profile', 'avatar', 'last_comment')
+                  'username', 'profile', 'avatar', 'total_comments','last_comment')
         extra_kwargs = {
             'profile': {'read_only': True},
             'users_like': {'read_only': True}
@@ -108,12 +109,16 @@ class ProfileSerializer(serializers.ModelSerializer):
 class ProfileDetailSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
         source="user.username", read_only=True)
-    post_count = serializers.IntegerField(source='posts.count', read_only=True)
+    #total_likes = serializers.IntegerField(source='posts.count', read_only=True)
+    total_likes = serializers.SerializerMethodField("get_total_likes")
+    
+    def get_total_likes(self, obj):
+        return sum([q.users_like.count() for q in obj.posts.all()])
 
     class Meta:
         model = Profile
         fields = ('id', 'username', 'name', 'avatar',
-                  'post_count', 'followers', 'following')
+                  'total_likes', 'followers', 'following')
         extra_kwargs = {
             'followers': {'read_only': True},
             'following': {'read_only': True},
